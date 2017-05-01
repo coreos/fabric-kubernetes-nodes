@@ -29,6 +29,8 @@ $ fab -u core -R my-special-label=true -- date
 [52.26.54.211] out:
 ```
 
+![Demo of fabric integration](http://i.imgur.com/YYHmvMl.gif)
+
 ### Bastian or Gateway Hosts
 
 Many configurations of Kubernetes, like [Tectonic](https://coreos.com/tectonic), do not enable direct SSH access to machines in the cluster and instead users must first access gateway or bastian hosts. If the Kubernetes cluster has this configuration add the `--gateway` flag to the command and change the address type to .
@@ -53,4 +55,7 @@ Disconnect
 
 By default the fabfile will use the `ExternalIP` of nodes. However, it can be configured to use any IP address that a Node has available. The example above uses the common `InternalIP` field. To change this to a custom `SpecialIP` export the environment variable `FAB_KUBE_NODE_ADDRESS_TYPE=SpecialIP`.
 
-![Demo of fabric integration](http://i.imgur.com/YYHmvMl.gif)
+### FAQ
+
+**Q**: With Kubernetes aren't we living in a post-SSH world?
+**A**: Kubernetes does enable a workflow where SSH should be less and less necessary for administering machines but often there is still a need to SSH into machines to gather statistics, debug issues, or repair configuration issues. So, while we hope that years from now machines will never need SSH and one-off debugging this tool is useful for the realities of today.
