@@ -58,4 +58,5 @@ By default the fabfile will use the `ExternalIP` of nodes. However, it can be co
 ### FAQ
 
 **Q**: With Kubernetes aren't we living in a post-SSH world?
+
 **A**: Kubernetes does enable a workflow where SSH should be less and less necessary for administering machines but often there is still a need to SSH into machines to gather statistics, debug issues, or repair configuration issues. So, while we hope that years from now machines will never need SSH and one-off debugging this tool is useful for the realities of today.
