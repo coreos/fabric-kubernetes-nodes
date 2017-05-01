@@ -18,7 +18,7 @@ for n in nodes["items"]:
 
     for l in n["metadata"]["labels"]:
         key = l + "=" + n["metadata"]["labels"][l]
-        if not key in env.roledefs
+        if not key in env.roledefs:
             env.roledefs[key] = []
         role = env.roledefs[key]
         role.append(nodeAddr)
