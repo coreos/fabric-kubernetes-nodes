@@ -1,8 +1,24 @@
-## Integrating Kubernetes with the Fabric Tool
+## Integrating Kubernetes Nodes with the Fabric Tool
 
 Kubernetes has a database of nodes in the cluster which can be queried with `kubectl get nodes`. This is a powerful database for automation and integration with existing tools. One powerful tool is the [Fabric SSH utility](http://www.fabfile.org/) which is known as a `fabfile.py`.
 
-Using this [Kubernetes fabfile.py](https://raw.githubusercontent.com/coreos/fabric-kubernetes-nodes/master/fabfile.py) you can integrate Kubernetes Nodes and labels with fabric. Here is an example session using this integration:
+### Getting Started
+
+Install the [Fabric SSH utility](http://www.fabfile.org/) and test it out:
+
+```
+$ fab --version
+Fabric 1.13.1
+```
+
+Git clone this repo and move into the directory
+
+```
+git clone https://github.com/coreos/fabric-kubernetes-nodes
+cd fabric-kubernetes-nodes
+```
+
+Fabric will use the `fabfile.py` from the root of this directory. So now Kubernetes Nodes and labels are integrated directly into fabric! Here is an example session using this integration:
 
 ```
 $ kubectl label node ip-10-0-0-50.us-west-2.compute.internal my-special-label=true
