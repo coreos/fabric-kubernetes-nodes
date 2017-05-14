@@ -31,9 +31,9 @@ $ fab -u core -R my-special-label=true -- date
 
 ![Demo of fabric integration](http://i.imgur.com/YYHmvMl.gif)
 
-### Bastian or Gateway Hosts
+### Bastion or Gateway Hosts
 
-Many configurations of Kubernetes, like [Tectonic](https://coreos.com/tectonic), do not enable direct SSH access to machines in the cluster and instead users must first access gateway or bastian hosts. If the Kubernetes cluster has this configuration add the `--gateway` flag to the command and change the address type to .
+Many configurations of Kubernetes, like [Tectonic](https://coreos.com/tectonic), do not enable direct SSH access to machines in the cluster and instead users must first access gateway or bastion hosts. If the Kubernetes cluster has this configuration add the `--gateway` flag to the command and change the address type to .
 
 ```
 $ export FAB_KUBE_NODE_ADDRESS_TYPE=InternalIP
