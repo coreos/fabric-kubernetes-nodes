@@ -1,0 +1,3 @@
+[Time]
+NTP={{ ntp_servers | join(' ') }}
+{{ '' if enable_fallback_ntp else '#' }}FallbackNTP={{ fallback_ntp_servers | join(' ') }}

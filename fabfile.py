@@ -1,4 +1,5 @@
 from fabric.api import *
+from fabric.contrib.files import upload_template as _upload_template
 import subprocess
 import json
 import os
@@ -27,6 +28,8 @@ for n in nodes["items"]:
 # Container Linux updates
 ###
 
+
+@task
 def update_engine_status():
     """
     Runs 'update_engine_client -status' to get the current status for Container Linux updates.
@@ -35,6 +38,7 @@ def update_engine_status():
     run('update_engine_client -status')
 
 
+@task
 def trigger_cl_update():
     """
     Runs 'update_engine_client -check_for_update' to trigger a check for and install a new version of Container Linux.
@@ -44,6 +48,7 @@ def trigger_cl_update():
     update_engine_status()
 
 
+@task
 def enable_cl_update(action='enable', update='no'):
     """
     Enable / disable update-engine, and optionally run a Container Linux update.
@@ -63,3 +68,53 @@ def enable_cl_update(action='enable', update='no'):
     elif action == "disable":
         sudo('systemctl mask update-engine')
         sudo('systemctl stop update-engine')
+
+
+###
+# NTP
+###
+
+env.ntp_settings = {
+    "enable_fallback_ntp": True,
+    "ntp_servers": [
+        "0.coreos.pool.ntp.org",
+        "1.coreos.pool.ntp.org",
+        "2.coreos.pool.ntp.org",
+        "3.coreos.pool.ntp.org"
+    ],
+    "fallback_ntp_servers": [
+        "0.pool.ntp.org",
+        "1.pool.ntp.org",
+        "2.pool.ntp.org",
+        "3.pool.ntp.org"
+    ]
+}
+
+
+@task
+def upload_ntp_config():
+    """
+    Uploads the template './templates/timesyncd.conf.j2' to '/etc/systemd/timesyncd.conf' on a remote host.
+    """
+    _upload_template(
+        'timesyncd.conf.j2',
+        '/etc/systemd/timesyncd.conf',
+        context=env.ntp_settings,
+        use_jinja=True,
+        template_dir='templates',
+        use_sudo=True,
+        backup=True
+    )
+
+    sudo('cat /etc/systemd/timesyncd.conf')
+
+
+@task
+def sync_ntp():
+    """
+    Runs 'upload_ntp_config', restarts the NTP service ('systemd-timesyncd'), and outputs the status of 'timedatectl'.
+    """
+    upload_ntp_config()
+    sudo('systemctl restart systemd-timesyncd; sleep 5')
+    run('systemctl status systemd-timesyncd -l')
+    run('timedatectl status')
